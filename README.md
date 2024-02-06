@@ -1,3 +1,3 @@
 # todoApp
 Rest todo app in Spring
-blabla
+07.02.2024
