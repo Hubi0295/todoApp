@@ -1,10 +1,6 @@
 package io.github.hubi0295.model;
-
-
 import org.springframework.data.domain.*;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RestResource;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +10,5 @@ public interface TaskRepository {
     boolean existsById(Integer id);
     Task save(Task entity);
     Page<Task> findAll(Pageable page);
-
     List<Task> findByDone(@Param("state") boolean done);
 }
