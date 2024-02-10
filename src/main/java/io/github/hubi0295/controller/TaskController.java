@@ -1,5 +1,4 @@
 package io.github.hubi0295.controller;
-
 import io.github.hubi0295.model.Task;
 import io.github.hubi0295.model.TaskRepository;
 import jakarta.validation.Valid;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,15 +30,26 @@ public class TaskController {
         logger.info("Custom pageable");
         return ResponseEntity.ok(repository.findAll(page).getContent());
     }
+    @GetMapping("/tasks/{id}")
+    ResponseEntity<Task> readOneTask(@PathVariable("id") int id){
+        logger.info("Get one Task by ID");
+        return  repository.findById(id)
+                .map(task->ResponseEntity.ok(task))
+                .orElse(ResponseEntity.notFound().build());
+    }
     @PutMapping("/tasks/{id}")
-    ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate){
-        if(repository.existsById(id)){
-            toUpdate.setId(id);
-            repository.save(toUpdate);
-        }
-        else{
+    ResponseEntity<?> updateTask(@PathVariable("id") int id, @RequestBody @Valid Task toUpdate){
+        if(!repository.existsById(id)){
             return ResponseEntity.notFound().build();
         }
+        toUpdate.setId(id);
+        repository.save(toUpdate);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/tasks")
+     ResponseEntity<Task> createOneTask(@RequestBody @Valid Task toCreate){
+        logger.info("Create one task by id");
+        Task task = repository.save(toCreate);
+        return ResponseEntity.created(URI.create("/"+task.getId())).body(task);
     }
 }
