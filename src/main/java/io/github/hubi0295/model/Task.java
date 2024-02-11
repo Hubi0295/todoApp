@@ -9,7 +9,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name="desc")
+    @Column(name="description")
     @NotBlank(message="U can not post blank desc")
     private String description;
     private boolean done;
