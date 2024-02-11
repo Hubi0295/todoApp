@@ -15,7 +15,6 @@ public class Task {
     @NotBlank(message="U can not post blank desc")
     private String description;
     private boolean done;
-
     private LocalDateTime deadline;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
