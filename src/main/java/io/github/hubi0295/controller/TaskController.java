@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
@@ -35,13 +36,17 @@ public class TaskController {
                 .map(task->ResponseEntity.ok(task))
                 .orElse(ResponseEntity.notFound().build());
     }
+    @Transactional
     @PutMapping("/tasks/{id}")
     ResponseEntity<?> updateTask(@PathVariable("id") int id, @RequestBody @Valid Task toUpdate){
         if(!repository.existsById(id)){
             return ResponseEntity.notFound().build();
         }
-        toUpdate.setId(id);
-        repository.save(toUpdate);
+        repository.findById(id).ifPresent(task->{
+            task.updateFrom(toUpdate);
+            repository.save(task);
+
+        });
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/tasks")
@@ -49,5 +54,14 @@ public class TaskController {
         logger.info("Create one task by id");
         Task task = repository.save(toCreate);
         return ResponseEntity.created(URI.create("/"+task.getId())).body(task);
+    }
+    @Transactional
+    @PatchMapping("/tasks/{id}")
+    public ResponseEntity<?> updateTask(@PathVariable("id") int id){
+        if(!repository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        repository.findById(id).ifPresent(task->task.setDone(!task.isDone()));
+        return ResponseEntity.noContent().build();
     }
 }
