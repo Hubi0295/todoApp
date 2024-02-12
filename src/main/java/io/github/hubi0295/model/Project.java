@@ -6,17 +6,17 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
-@Table(name="projects")
+@Table(name = "projects")
 public class Project {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name="description")
-    @NotBlank(message="U can not post blank project description")
+    @Column(name = "description")
+    @NotBlank(message = "U can not post blank project description")
     private String description;
     @OneToMany(mappedBy = "project")
     private Set<TaskGroup> groups;
-    @OneToMany(cascade=CascadeType.ALL,mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectStep> steps;
 
     public int getId() {
@@ -43,7 +43,7 @@ public class Project {
         this.groups = groups;
     }
 
-    Set<ProjectStep> getSteps() {
+    public Set<ProjectStep> getSteps() {
         return steps;
     }
 

@@ -1,4 +1,5 @@
 package io.github.hubi0295.controller;
+
 import io.github.hubi0295.model.Task;
 import io.github.hubi0295.model.TaskRepository;
 import jakarta.validation.Valid;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 import java.net.URI;
 import java.util.List;
 
@@ -19,49 +21,55 @@ public class TaskController {
     TaskController(TaskRepository repository) {
         this.repository = repository;
     }
-    @GetMapping(value = "/tasks", params={"!sort","!page","!size"})
-    ResponseEntity<List<Task>> readAllTasks(){
+
+    @GetMapping(value = "/tasks", params = {"!sort", "!page", "!size"})
+    ResponseEntity<List<Task>> readAllTasks() {
         logger.warn("Exposing all the tasks");
         return ResponseEntity.ok(repository.findAll());
     }
+
     @GetMapping("/tasks")
-    ResponseEntity<List<Task>> readAllTasks(Pageable page){
+    ResponseEntity<List<Task>> readAllTasks(Pageable page) {
         logger.info("Custom pageable");
         return ResponseEntity.ok(repository.findAll(page).getContent());
     }
+
     @GetMapping("/tasks/{id}")
-    ResponseEntity<Task> readOneTask(@PathVariable("id") int id){
+    ResponseEntity<Task> readOneTask(@PathVariable("id") int id) {
         logger.info("Get one Task by ID");
-        return  repository.findById(id)
-                .map(task->ResponseEntity.ok(task))
+        return repository.findById(id)
+                .map(task -> ResponseEntity.ok(task))
                 .orElse(ResponseEntity.notFound().build());
     }
+
     @Transactional
     @PutMapping("/tasks/{id}")
-    ResponseEntity<?> updateTask(@PathVariable("id") int id, @RequestBody @Valid Task toUpdate){
-        if(!repository.existsById(id)){
+    ResponseEntity<?> updateTask(@PathVariable("id") int id, @RequestBody @Valid Task toUpdate) {
+        if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        repository.findById(id).ifPresent(task->{
+        repository.findById(id).ifPresent(task -> {
             task.updateFrom(toUpdate);
             repository.save(task);
 
         });
         return ResponseEntity.noContent().build();
     }
+
     @PostMapping("/tasks")
-     ResponseEntity<Task> createOneTask(@RequestBody @Valid Task toCreate){
+    ResponseEntity<Task> createOneTask(@RequestBody @Valid Task toCreate) {
         logger.info("Create one task by id");
         Task task = repository.save(toCreate);
-        return ResponseEntity.created(URI.create("/"+task.getId())).body(task);
+        return ResponseEntity.created(URI.create("/" + task.getId())).body(task);
     }
+
     @Transactional
     @PatchMapping("/tasks/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable("id") int id){
-        if(!repository.existsById(id)){
+    public ResponseEntity<?> updateTask(@PathVariable("id") int id) {
+        if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        repository.findById(id).ifPresent(task->task.setDone(!task.isDone()));
+        repository.findById(id).ifPresent(task -> task.setDone(!task.isDone()));
         return ResponseEntity.noContent().build();
     }
 }

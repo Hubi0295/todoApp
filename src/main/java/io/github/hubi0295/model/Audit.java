@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 public class Audit {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+
     @PrePersist
-    void prePersist(){
-        createdOn=LocalDateTime.now();
+    void prePersist() {
+        createdOn = LocalDateTime.now();
     }
+
     @PreUpdate
-    void preMerge(){
-        updatedOn=LocalDateTime.now();
+    void preMerge() {
+        updatedOn = LocalDateTime.now();
     }
 }
