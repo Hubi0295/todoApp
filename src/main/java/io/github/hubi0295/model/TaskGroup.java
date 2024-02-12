@@ -2,27 +2,28 @@ package io.github.hubi0295.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name="tasks")
-public class Task{
+@Table(name="task_groups")
+public class TaskGroup {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @Column(name="description")
-    @NotBlank(message="U can not post blank desc")
+    @NotBlank(message="U can not post blank desc group")
     private String description;
     private boolean done;
-    private LocalDateTime deadline;
-    @Embedded
-    private Audit audit = new Audit();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    private Set<Task> tasks;
     @ManyToOne
-    @JoinColumn(name="task_group_id")
-    private TaskGroup group;
-
-    Task(){
+    @JoinColumn(name="project_id")
+    private Project project;
+    TaskGroup(){
 
     }
     public String getDescription() {
@@ -49,22 +50,19 @@ public class Task{
         this.id = id;
     }
 
-    public LocalDateTime getDeadline() {
-        return deadline;
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
+    void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 
-    public void updateFrom(final Task source){
-        description = source.description;
-        done = source.done;
-        deadline = source.deadline;
-        group=source.group;
+    Project getProject() {
+        return project;
     }
 
-    TaskGroup getGroup() {
-        return group;
+    void setProject(Project project) {
+        this.project = project;
     }
 }
