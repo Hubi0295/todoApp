@@ -1,6 +1,6 @@
 package io.github.hubi0295.controller;
 
-import io.github.hubi0295.Template;
+import io.github.hubi0295.TaskConfigurationProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InfoController {
     private DataSourceProperties dataSource;
-    private Template myProp;
+    private TaskConfigurationProperties myProp;
 
-    InfoController(DataSourceProperties dataSource, Template myProp) {
+    InfoController(DataSourceProperties dataSource, TaskConfigurationProperties myProp) {
         this.dataSource = dataSource;
         this.myProp = myProp;
     }
@@ -22,6 +22,6 @@ public class InfoController {
 
     @GetMapping("/info/prop")
     boolean myProp() {
-        return myProp.isAllowMultipleTasksFromTemplate();
+        return myProp.getTemplate().isAllowMultipleTasks();
     }
 }
