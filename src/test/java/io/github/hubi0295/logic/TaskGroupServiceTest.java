@@ -32,6 +32,8 @@ class TaskGroupServiceTest {
                 .hasMessageContaining("undone tasks");
     }
 
+
+
     @Test
     @DisplayName("should throw when no group")
     void toggleGroup_wrongId_throwsIllegalArgumentException() {
