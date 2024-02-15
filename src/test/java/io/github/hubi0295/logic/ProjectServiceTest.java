@@ -1,19 +1,14 @@
 package io.github.hubi0295.logic;
 
 import io.github.hubi0295.TaskConfigurationProperties;
-import io.github.hubi0295.model.ProjectRepository;
-import io.github.hubi0295.model.TaskGroup;
-import io.github.hubi0295.model.TaskGroupRepository;
+import io.github.hubi0295.model.*;
 import io.github.hubi0295.model.projection.GroupReadModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
@@ -80,13 +75,15 @@ class ProjectServiceTest {
     @DisplayName("should create a new group from project")
     public void createGroup_configurationOK_existingProject_cretaetsandsavesGroup(){
         //given
+        int countbefore = inMemorygroupRepository().count();
+
         var today= LocalDate.now().atStartOfDay();
         //and
+        var project = projectWith("opisblablaHubert",Set.of(-1,-2));
         var mockRepository = mock(ProjectRepository.class);
-        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(mockRepository.findById(anyInt())).thenReturn(Optional.of(project));
         //and
         TaskGroupRepository inMem = inMemorygroupRepository();
-        int countbefore = inMemorygroupRepository().count();
         TaskConfigurationProperties mockConfig = configurationReturning(true);
         //system under test
         var toTest = new ProjectService(mockRepository,inMem,mockConfig);
@@ -95,7 +92,10 @@ class ProjectServiceTest {
         GroupReadModel groupRModel = toTest.createGroup(today, 1);
 
         //then
-        assertThat(countbefore).isEqualTo(inMemorygroupRepository().count()-1);
+        assertThat(groupRModel).hasFieldOrPropertyWithValue("description","opisblablaHubert");
+        assertThat(groupRModel.getDeadline()).isEqualTo(today.minusDays(1));
+//        assertThat(groupRModel.getTasks()).isEqualTo(today.minusDays(1));
+        assertThat(countbefore).isEqualTo(inMemorygroupRepository().count());
     }
     private static TaskGroupRepository groupRepositoryReturning( boolean b) {
         var mockGroupRepository = mock(TaskGroupRepository.class);
@@ -133,17 +133,16 @@ class ProjectServiceTest {
 
                 @Override
                 public TaskGroup save(TaskGroup entity) {
-                    if(entity.getId()==0){
-                        map.put(entity.getId(),entity);
-                    }
-                    else{
+                    if(entity.getId()==0) {
                         try {
-                            TaskGroup.class.getDeclaredField("id").set(entity,++index);
+                            var field = TaskGroup.class.getDeclaredField("id");
+                            field.setAccessible(true);
+                            field.set(entity, ++index);
                         } catch (NoSuchFieldException | IllegalAccessException e) {
                             throw new RuntimeException(e);
                         }
-                        map.put(index,entity);
                     }
+                    map.put(entity.getId(),entity);
                     return entity;
                 }
 
@@ -158,5 +157,18 @@ class ProjectServiceTest {
                             .findAny()
                             .isPresent();
                 }
+
+    }
+    private Project projectWith(String desc, Set<Integer> daysToDeadline){
+        var result = mock(Project.class);
+        Set<ProjectStep> daysTo = daysToDeadline.stream().map(days->{
+            var step = mock(ProjectStep.class);
+            when(step.getDescription()).thenReturn("test");
+            when(step.getDaysToDeadline()).thenReturn(days);
+            return step;
+        }).collect(Collectors.toSet());
+        when(result.getDescription()).thenReturn(desc);
+        when(result.getSteps()).thenReturn(daysTo);
+        return result;
     }
 }
