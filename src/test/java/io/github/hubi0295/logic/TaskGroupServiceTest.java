@@ -31,7 +31,6 @@ class TaskGroupServiceTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("undone tasks");
     }
-
     @Test
     @DisplayName("should throw when no group")
     void toggleGroup_wrongId_throwsIllegalArgumentException() {
@@ -50,6 +49,7 @@ class TaskGroupServiceTest {
         assertThat(exception)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("id not found");
+
     }
 
     @Test
