@@ -25,10 +25,16 @@ public class Task {
     public Task() {
 
     }
-
     public Task(String description, LocalDateTime date){
+        this(description,date,null);
+
+    }
+    public Task(String description, LocalDateTime date, TaskGroup taskGroup){
         this.description=description;
         this.deadline=date;
+        if(group!=null){
+            this.group=taskGroup;
+        }
     }
     public String getDescription() {
         return description;

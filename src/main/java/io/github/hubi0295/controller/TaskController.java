@@ -14,7 +14,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class TaskController {
+public class
+TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository repository;
 

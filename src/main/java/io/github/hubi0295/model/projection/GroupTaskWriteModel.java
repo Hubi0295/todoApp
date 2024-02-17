@@ -1,6 +1,7 @@
 package io.github.hubi0295.model.projection;
 
 import io.github.hubi0295.model.Task;
+import io.github.hubi0295.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
@@ -23,8 +24,8 @@ public class GroupTaskWriteModel {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-    public Task toTask(){
-        return new Task(description,deadline);
+    public Task toTask(TaskGroup group){
+        return new Task(description,deadline,group);
 
     }
 }
