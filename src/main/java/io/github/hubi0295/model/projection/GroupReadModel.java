@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class GroupReadModel {
     private int id;
     private String description;
-    //FIXME deadline for the latests task
     private LocalDateTime deadline;
     private Set<GroupTaskReadModel> tasks;
 
@@ -27,6 +26,7 @@ public class GroupReadModel {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public String getDescription() {
         return description;

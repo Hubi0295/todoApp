@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.List;
 
@@ -22,7 +21,6 @@ class TaskGroupController {
     private static final Logger logger = LoggerFactory.getLogger(TaskGroupController.class);
     private final TaskGroupService service;
     private final TaskRepository repository;
-
     TaskGroupController(final TaskGroupService service, final TaskRepository repository) {
         this.service = service;
         this.repository = repository;
@@ -57,5 +55,6 @@ class TaskGroupController {
     @ExceptionHandler(IllegalStateException.class)
     ResponseEntity<String> handleIllegaStateEx(IllegalStateException e){
         return ResponseEntity.badRequest().body(e.getMessage());
+
     }
 }

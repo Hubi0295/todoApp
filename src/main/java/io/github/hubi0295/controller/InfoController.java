@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/info")
-public class InfoController {
+class InfoController {
     private DataSourceProperties dataSource;
     private TaskConfigurationProperties myProp;
 
@@ -26,8 +26,5 @@ public class InfoController {
     boolean myProp() {
         return myProp.getTemplate().isAllowMultipleTasks();
     }
-    @GetMapping
-    String zadanie(){
-        return "Iga wygrała w Docha 17-02-24";
-    }
+
 }
