@@ -28,7 +28,7 @@ class ProjectServiceTest {
         //and
         TaskConfigurationProperties mockConf = configurationReturning(false);
         //system under test
-        var toTest = new ProjectService(null,mockGroupRepository,mockConf);
+        var toTest = new ProjectService(null,mockGroupRepository,null,mockConf);
         //when
         var exception = catchThrowable(()->toTest.createGroup(LocalDateTime.now(),0));
         //then
@@ -48,7 +48,7 @@ class ProjectServiceTest {
         var mockRepository = mock(ProjectRepository.class);
         when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
         //when
-        var toTest = new ProjectService(mockRepository,null,mockConf);
+        var toTest = new ProjectService(mockRepository,null,null,mockConf);
         var exception = catchThrowable(()->toTest.createGroup(LocalDateTime.now(),0));
         //then
         assertThat(exception).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("id is not found");
@@ -65,7 +65,7 @@ class ProjectServiceTest {
         var mockRepository = mock(ProjectRepository.class);
         when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
         //when
-        var toTest = new ProjectService(mockRepository,MtaskGroupRepo,mockConf);
+        var toTest = new ProjectService(mockRepository,MtaskGroupRepo,null,mockConf);
         var exception = catchThrowable(()->toTest.createGroup(LocalDateTime.now(),0));
         //then
         assertThat(exception).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("id is not found");
@@ -87,7 +87,7 @@ class ProjectServiceTest {
         var serviceWithInMemRepo = new TaskGroupService(inMem,null);
         TaskConfigurationProperties mockConfig = configurationReturning(true);
         //system under test
-        var toTest = new ProjectService(mockRepository,inMem,mockConfig);
+        var toTest = new ProjectService(mockRepository,inMem,null,mockConfig);
 
         //when
         GroupReadModel groupRModel = toTest.createGroup(today, 1);

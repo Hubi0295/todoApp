@@ -1,5 +1,6 @@
 package io.github.hubi0295.logic;
 
+import io.github.hubi0295.model.Project;
 import io.github.hubi0295.model.TaskGroup;
 import io.github.hubi0295.model.TaskGroupRepository;
 import io.github.hubi0295.model.TaskRepository;
@@ -20,7 +21,10 @@ public class TaskGroupService {
     }
 
     public GroupReadModel createGroup(final GroupWriteModel source) {
-        TaskGroup result = repository.save(source.toGroup());
+        return createGroup(source,null);
+    }
+    GroupReadModel createGroup(GroupWriteModel source, Project project) {
+        TaskGroup result = repository.save(source.toGroup(project));
         return new GroupReadModel(result);
     }
     public List<GroupReadModel> readAll(){
