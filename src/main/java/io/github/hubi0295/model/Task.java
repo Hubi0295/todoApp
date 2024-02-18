@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "tasks")
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "description")
     @NotBlank(message = "U can not post blank desc")
@@ -29,18 +29,27 @@ public class Task {
         this(description,date,null);
 
     }
-    public Task(String description, LocalDateTime date, TaskGroup taskGroup){
+    public Task(String description, LocalDateTime date, TaskGroup Group){
         this.description=description;
         this.deadline=date;
-        if(group!=null){
-            this.group=taskGroup;
+        if(this.group!=null){
+            this.group=Group;
         }
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(final int id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(final String description) {
         this.description = description;
     }
 
@@ -48,24 +57,24 @@ public class Task {
         return done;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(final boolean done) {
         this.done = done;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    void setId(int id) {
-        this.id = id;
     }
 
     public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    void setDeadline(final LocalDateTime deadline) {
         this.deadline = deadline;
+    }
+
+    TaskGroup getGroup() {
+        return group;
+    }
+
+    void setGroup(final TaskGroup group) {
+        this.group = group;
     }
 
     public void updateFrom(final Task source) {
@@ -73,9 +82,5 @@ public class Task {
         done = source.done;
         deadline = source.deadline;
         group = source.group;
-    }
-
-    TaskGroup getGroup() {
-        return group;
     }
 }
