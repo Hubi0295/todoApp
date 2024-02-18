@@ -32,9 +32,7 @@ public class Task {
     public Task(String description, LocalDateTime date, TaskGroup taskGroup){
         this.description=description;
         this.deadline=date;
-        if(group!=null){
-            this.group=taskGroup;
-        }
+        this.group=taskGroup;
     }
     public String getDescription() {
         return description;
