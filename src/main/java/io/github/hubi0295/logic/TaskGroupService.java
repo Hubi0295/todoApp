@@ -23,19 +23,15 @@ public class TaskGroupService {
         TaskGroup result = repository.save(source.toGroup());
         return new GroupReadModel(result);
     }
-
-    public List<GroupReadModel> readAll() {
-        return repository.findAll().stream()
-                .map(GroupReadModel::new)
-                .collect(Collectors.toList());
+    public List<GroupReadModel> readAll(){
+        return repository.findAll().stream().map(GroupReadModel::new).collect(Collectors.toList());
     }
-
-    public void toggleGroup(int groupId) {
-        if (taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)) {
-            throw new IllegalStateException("Group has undone tasks. Done all the tasks first");
+    public void toggleGroup(int id){
+        if(taskRepository.existsByDoneIsFalseAndGroup_Id(id)){
+            throw new IllegalStateException("Group has undone tasks");
         }
-        TaskGroup result = repository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
+
+        TaskGroup result = repository.findById(id).orElseThrow(()->new IllegalArgumentException("Task group with given id not found"));
         result.setDone(!result.isDone());
         repository.save(result);
     }

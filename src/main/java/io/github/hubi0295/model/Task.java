@@ -32,9 +32,8 @@ public class Task {
     public Task(String description, LocalDateTime date, TaskGroup Group){
         this.description=description;
         this.deadline=date;
-        if(this.group!=null){
-            this.group=Group;
-        }
+        this.group=Group;
+
     }
 
     public int getId() {
