@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th:="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo app: groups</title>
+    <link rel="stylesheet" href="https://igoradamenko.com/awsm.css/v2/css/awsm.css">
+    <style>
+        .Bd{
+            border: solid 1px black;
+        }
+        .P\(0\){
+            padding: 0;
+        }
+        .M\(0\){
+            margin: 0;
+        }
+        .P\(10px\){
+            padding: 10px;
+        }
+        .BdC\(red\){
+            border-color:red !important;
+        }
+        .C\(red\){
+            color:red;
+        }
+
+    </style>
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <h1 th:if="${message!=null}" th:text="${message}"> </h1>
+    <!--/*@thymesVar id="groups" type="java.util.List<io.github.hubi0295.model.projection.GroupReadModel>"*/-->
+    <dl th:each="group : ${groups}" class="Bd P(10px)">
+        <dt>
+            <label>
+            <input type="checkbox">
+            <span th:text="${group.description}"></span>
+            <small th:text="|(${group.deadline})|"></small>
+            </label>
+            <hr class="M(0)"/>
+        </dt>
+        <dd><a th:href="@{/tasks.html(group=${group.id})}">
+            <ul class="P(0)">
+            <li th:each="task : ${group.tasks}">
+                <span th:unless="${task.done}" th:text="${task.description}"></span>
+                <del th:if="${task.done}" th:text="${task.description}"></del>
+            </li>
+
+        </ul>
+        </a>
+        </dd>
+    </dl>
+    <fieldset>
+        <!--/*@thymesVar id="group" type="io.github.hubi0295.model.projection.GroupWriteModel"*/-->
+        <form action="#" method="post" th:action="@{/groups}" th::object="${group}">
+            <label>
+                Opis<input type="text" th:field="${group.description}" th::errorclass="'Bdc(red)'"/>
+            </label>
+            <fieldset th:each="task,taskStat: ${group.tasks}">
+                <legend th:text="'Zadanie'+${taskStat.index +1}"></legend>
+                <label>Opis<br>
+                    <input type="text" th:field="${group.tasks[__${taskStat.index}__].description}"th::errorclass="'Bdc(red)'"/>
+                </label><br>
+                <label>Deadline<br>
+                    <input type="number" th:field="${group.tasks[__${taskStat.index}__].deadline}"th::errorclass="'Bdc(red)'"/>
+                </label>
+            </fieldset>
+            <div>
+                <button type="submit" name="addTask">+</button>
+            </div>
+            <p>
+                <button type="submit">Dodaj</button>
+                <button type="reset">Czyść</button>
+            </p>
+
+        </form>
+    </fieldset>
+</main>
+</body>
+</html>

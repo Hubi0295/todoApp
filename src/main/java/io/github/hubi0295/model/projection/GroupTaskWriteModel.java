@@ -2,10 +2,13 @@ package io.github.hubi0295.model.projection;
 
 import io.github.hubi0295.model.Task;
 import io.github.hubi0295.model.TaskGroup;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
 public class GroupTaskWriteModel {
+    @NotBlank(message = "U can not post blank desc group")
+
     private String description;
     private LocalDateTime deadline;
 
