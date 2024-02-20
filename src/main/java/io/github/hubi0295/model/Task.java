@@ -1,5 +1,6 @@
 package io.github.hubi0295.model;
 
+import io.github.hubi0295.model.event.TaskEvent;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -52,12 +53,16 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isDone() {
-        return done;
+    public TaskEvent toggle() {
+        this.done = !this.done;
+        return TaskEvent.changed(this);
     }
 
     public void setDone(final boolean done) {
         this.done = done;
+    }
+    public Boolean isDone(){
+        return this.done;
     }
 
     public LocalDateTime getDeadline() {
