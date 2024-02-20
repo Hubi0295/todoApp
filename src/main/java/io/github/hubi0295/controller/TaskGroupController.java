@@ -7,7 +7,6 @@ import io.github.hubi0295.model.TaskRepository;
 import io.github.hubi0295.model.projection.GroupReadModel;
 import io.github.hubi0295.model.projection.GroupTaskWriteModel;
 import io.github.hubi0295.model.projection.GroupWriteModel;
-import io.github.hubi0295.model.projection.ProjectWriteModel;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +44,7 @@ class TaskGroupController {
             return "groups";
         }
         service.createGroup(groupWriteModel);
-        model.addAttribute("group", new ProjectWriteModel());
+        model.addAttribute("group", new GroupWriteModel());
         model.addAttribute("groups", getGroups());
 
         model.addAttribute("message", "Dodano Grupe");

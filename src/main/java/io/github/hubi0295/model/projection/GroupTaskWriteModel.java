@@ -3,6 +3,7 @@ package io.github.hubi0295.model.projection;
 import io.github.hubi0295.model.Task;
 import io.github.hubi0295.model.TaskGroup;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,7 @@ public class GroupTaskWriteModel {
     @NotBlank(message = "U can not post blank desc group")
 
     private String description;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime deadline;
 
     public String getDescription() {
