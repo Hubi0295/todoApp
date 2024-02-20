@@ -64,7 +64,7 @@
                     <input type="text" th:field="${group.tasks[__${taskStat.index}__].description}"th::errorclass="'Bdc(red)'"/>
                 </label><br>
                 <label>Deadline<br>
-                    <input type="number" th:field="${group.tasks[__${taskStat.index}__].deadline}"th::errorclass="'Bdc(red)'"/>
+                    <input type="datetime-local" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" th:field="${group.tasks[__${taskStat.index}__].deadline}"th::errorclass="'Bdc(red)'"/>
                 </label>
             </fieldset>
             <div>
