@@ -7,7 +7,12 @@ import java.time.Instant;
 
 public abstract class TaskEvent {
     public static TaskEvent changed(Task source){
-        return source.isDone() ? new TaskDone(source) : new TaskUndone(source);
+        if(source.isDone()){
+            return new TaskDone(source);
+        }
+        else{
+            return new TaskUndone(source);
+        }
     }
     private int taskId;
     private Instant occurence;
