@@ -11,8 +11,3 @@ management:
   web:
    exposure:
     include: '*'
-keycloak:
- auth-server-url: 'http://localhost:8180'
- realm: 'todo'
- resource: 'todo-client'
- public-client: true
