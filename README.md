@@ -1,11 +1,11 @@
 # todoApp
-Technologies used for this project:
-Spring Boot
-Hibernate
-Maven
-H2 Database
-Thymeleaf
-Flyway
-Junit and Mockito
+Technologies used for this project:<br>
+<b>Spring Boot</b><br>
+<b>Hibernate</b><br>
+<b>Maven</b><br>
+H2 Database<br>
+Thymeleaf<br>
+Flyway<br>
+Junit and Mockito<br>
 
 <i>Project was made for educational purpose within udemy course</i>
