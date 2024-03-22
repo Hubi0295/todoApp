@@ -8,4 +8,4 @@ Thymeleaf<br>
 Flyway<br>
 Junit and Mockito<br>
 
-<i>Project was made for educational purpose within udemy course, i just have wanted to learn more deeply java, get to know Spring boot and I liked it</i>
+<i>Project was made for educational purpose within udemy course, i have wanted to learn more deeply java, get to know Spring boot and I liked it</i>
