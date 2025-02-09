@@ -7,5 +7,3 @@ H2 Database<br>
 Thymeleaf<br>
 Flyway<br>
 Junit and Mockito<br>
-
-<i>Project was made for educational purpose within udemy course, i have wanted to learn more deeply java, get to know Spring boot</i>
